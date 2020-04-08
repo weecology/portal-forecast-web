@@ -1,0 +1,29 @@
+setup_date: '2020-04-08'
+setup_R_version:
+  platform: x86_64-apple-darwin15.6.0
+  arch: x86_64
+  os: darwin15.6.0
+  system: x86_64, darwin15.6.0
+  status: ''
+  major: '3'
+  minor: '6.0'
+  year: '2019'
+  month: '04'
+  day: '26'
+  svn rev: '76424'
+  language: R
+  version.string: R version 3.6.0 (2019-04-26)
+  nickname: Planting of a Tree
+setup_portalcasting_version: 0.18.3
+directory_tree:
+  main: '.'
+  subs:
+  - casts
+  - models
+  - raw
+  - data
+  - tmp
+downloads_versions:
+- PortalData-2.19.0
+- portalPredictions-2020-04-02
+
