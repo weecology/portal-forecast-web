@@ -11,38 +11,19 @@ library(shiny)
 library(shiny)
 library(dplyr)
 library(ggplot2)
-remotes::install_github("weecology/portalr")
 library(portalr)
 library(stats)
 library(lubridate)
 library(forecast)
+library(portalcasting)
 
 # Data setup
-portal_data <- load_rodent_data()
-abundances <- abundance(shape = "long", time = "period", clean = FALSE) %>% 
-    inner_join(portal_data$species_table, by = "species") %>%
-    left_join(portal_data$newmoons_table, by = "period") %>%
-    mutate(censusdate = as.Date(censusdate))
-species_list <- unique(abundances$scientificname)
-species_list <- sort(species_list)
-min_date <- min(abundances$censusdate)
-max_date <- max(abundances$censusdate)
 
-ndvi_dat <- ndvi(level = "monthly", fill = FALSE) %>%
-    mutate(year = year(date), month = month(date)) 
+# Need to set this up to only run periodically external
+# to the shiny app
+# setup_production()
 
-weath_dat <- weather(level = "monthly", fill = FALSE) %>%
-    full_join(ndvi_dat, by = c("year", "month")) %>%
-    select(year, month, mintemp, maxtemp, meantemp, precipitation, ndvi, 
-           warm_days, cool_precip, warm_precip) %>%
-    mutate(date = ymd(paste(year,month,01)))
-
-full_dat <- abundances %>%
-    mutate(censusdate = ymd(censusdate)) %>%
-    mutate(year = year(censusdate), month = month(censusdate)) %>%
-    left_join(weath_dat, by = c("year", "month")) %>%
-    select(-"date") %>%
-    rename(date = censusdate)
+species_list <- portalcasting::rodent_species(set = "all")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -52,7 +33,12 @@ ui <- fluidPage(
 
     mainPanel(
         tabsetPanel(
-            tabPanel("Plot", plotOutput("plot")),
+            tabPanel("Forecast",
+            sidebarPanel(selectInput("species",
+                                     "Species",
+                                     species_list,
+                                     selected = "DM")),
+            mainPanel(plotOutput("main_plot"))),
             tabPanel("About", includeMarkdown("about.md")),
             tabPanel("Models", includeMarkdown("models.md"))
         )
@@ -62,14 +48,12 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+output$main_plot <- renderPlot({
+  print(input$species)
+  p <- plot_cast_ts(data_set = "controls", species = tolower(input$species))
+  p
+})
 
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    })
 }
 
 # Run the application 
