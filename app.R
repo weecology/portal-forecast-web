@@ -50,7 +50,7 @@ server <- function(input, output) {
 
 output$main_plot <- renderPlot({
   print(input$species)
-  p <- plot_cast_ts(data_set = "controls", species = tolower(input$species))
+  p <- plot_cast_ts(data_set = "controls", species = toupper(input$species))
   p
 })
 
