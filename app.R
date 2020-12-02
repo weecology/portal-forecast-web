@@ -40,7 +40,8 @@ ui <- fluidPage(
                                      selected = "DM")),
             mainPanel(plotOutput("main_plot"))),
             tabPanel("About", includeMarkdown("about.md")),
-            tabPanel("Models", includeMarkdown("models.md"))
+            tabPanel("Models", includeMarkdown("models.md")),
+            tabPanel("Rodent Profiles", includeHTML("profile.html"))
         )
     )
 )
