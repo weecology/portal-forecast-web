@@ -23,7 +23,13 @@ library(portalcasting)
 # to the shiny app
 # setup_production()
 
-species_list <- portalcasting::rodent_species(set = "all")
+# Get lists of species as both abbreviations and scientific names
+species_table <- portalr::load_rodent_data()$species_table
+species_abbrev_list <- portalcasting::rodent_species(set = "all")
+species_names <- species_table %>%
+                 inner_join(data.frame(species = species_abbrev_list), by = "species") %>%
+                 select(species, scientificname)
+species_list <- c("All", species_names$scientificname)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -34,11 +40,12 @@ ui <- fluidPage(
     mainPanel(
         tabsetPanel(
             tabPanel("Forecast",
-            sidebarPanel(selectInput("species",
-                                     "Species",
-                                     species_list,
-                                     selected = "DM")),
-            mainPanel(plotOutput("main_plot"))),
+            mainPanel(selectInput("species",
+                                  "Species",
+                                  species_list,
+                                  selected = "Dipodomys merriami"),
+                      plotOutput("main_plot"),
+                      plotOutput("species_summary_plot"))),
             tabPanel("About", includeMarkdown("about.md")),
             tabPanel("Models", includeMarkdown("models.md")),
             tabPanel("Rodent Profiles", includeHTML("profile.html"))
@@ -50,9 +57,17 @@ ui <- fluidPage(
 server <- function(input, output) {
 
 output$main_plot <- renderPlot({
-  print(input$species)
-  p <- plot_cast_ts(data_set = "controls", species = toupper(input$species))
+  if (input$species == "All") {
+    p <- plot_cast_ts(data_set = "controls")    
+  } else {
+    species <- species_names$species[species_names$scientificname == input$species]
+    p <- plot_cast_ts(data_set = "controls", species = toupper(species))
+  }
   p
+})
+
+output$species_summary_plot <- renderPlot({
+    p <- plot_cast_point(data_set = "controls")
 })
 
 }
