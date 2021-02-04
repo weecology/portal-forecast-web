@@ -71,7 +71,15 @@ output$main_plot <- renderPlot({
 })
 
 output$species_summary_plot <- renderPlot({
-    p <- plot_cast_point(data_set = "controls")
+  if (input$species == "All") {
+    p <- plot_cast_point(data_set = tolower(input$treatment),
+                         highlight_sp = ("total"))
+  } else {
+    species <- species_names$species[species_names$scientificname == input$species]
+    p <- plot_cast_point(data_set = tolower(input$treatment),
+                         highlight_sp = toupper(species))
+  }
+  p
 })
 
 }
