@@ -44,6 +44,10 @@ ui <- fluidPage(
                                   "Species",
                                   species_list,
                                   selected = "Dipodomys merriami"),
+                      selectInput("treatment",
+                                  "Treatment",
+                                  c("All", "Controls", "Exclosures"),
+                                  selected = "Controls"),
                       plotOutput("main_plot"),
                       plotOutput("species_summary_plot"))),
             tabPanel("About", includeMarkdown("about.md")),
@@ -58,10 +62,10 @@ server <- function(input, output) {
 
 output$main_plot <- renderPlot({
   if (input$species == "All") {
-    p <- plot_cast_ts(data_set = "controls")    
+    p <- plot_cast_ts(data_set = tolower(input$treatment)) 
   } else {
     species <- species_names$species[species_names$scientificname == input$species]
-    p <- plot_cast_ts(data_set = "controls", species = toupper(species))
+    p <- plot_cast_ts(data_set = tolower(input$treatment), species = toupper(species))
   }
   p
 })
