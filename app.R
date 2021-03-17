@@ -39,7 +39,7 @@ ui <- fluidPage(
 
     # Application title
     titlePanel("Portal Project Forecasting"),
-
+    p(HTML(paste0('Forecasts for the population and community dynamics of ', a(href = 'http://portal.weecology.org', 'The Portal Project'), '.'))),
     mainPanel(
         tabsetPanel(
             tabPanel("Forecast",
