@@ -17,6 +17,9 @@ library(lubridate)
 library(forecast)
 library(portalcasting)
 
+# Render Rmd files
+rmarkdown::render("models.Rmd")
+
 # Data setup
 
 # Need to set this up to only run periodically external
@@ -51,7 +54,7 @@ ui <- fluidPage(
                       plotOutput("main_plot"),
                       plotOutput("species_summary_plot"))),
             tabPanel("About", includeMarkdown("about.md")),
-            tabPanel("Models", includeMarkdown("models.md")),
+            tabPanel("Models", includeHTML("models.html")),
             tabPanel("Rodent Profiles", includeHTML("profile.html"))
         )
     )
