@@ -6,7 +6,7 @@ title: "About Portal Forecasts"
 
 # Contributors
 
-[Ethan P. White](https://orcid.org/0000-0001-6728-7745), [Glenda M. Yenni](https://orcid.org/0000-0001-6969-1848), [Shawn D. Taylor](https://orcid.org/0000-0002-6178-6903), [Erica M. Christensen](https://orcid.org/0000-0002-5635-2502), [Ellen K. Bledsoe](https://orcid.org/0000-0002-3629-7235), [Juniper L. Simonis](https://orcid.org/0000-0001-9798-0460), and [S. K. Morgan Ernest](https://orcid.org/0000-0002-6026-8530)
+[Ethan P. White](https://orcid.org/0000-0001-6728-7745), [Glenda M. Yenni](https://orcid.org/0000-0001-6969-1848), [Henry Senyondo](https://orcid.org/0000-0001-7105-5808), [Shawn D. Taylor](https://orcid.org/0000-0002-6178-6903), [Erica M. Christensen](https://orcid.org/0000-0002-5635-2502), [Ellen K. Bledsoe](https://orcid.org/0000-0002-3629-7235), [Juniper L. Simonis](https://orcid.org/0000-0001-9798-0460), and [S. K. Morgan Ernest](https://orcid.org/0000-0002-6026-8530)
 
 <br>
 
