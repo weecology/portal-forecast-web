@@ -33,6 +33,8 @@ species_names <- species_table %>%
                  inner_join(data.frame(species = species_abbrev_list), by = "species") %>%
                  select(species, scientificname)
 species_list <- c("All", species_names$scientificname)
+# Remove PI from species list
+species_list[species_list != "Chaetodipus intermedius"]
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
