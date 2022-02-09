@@ -54,7 +54,17 @@ ui <- fluidPage(
                                   c("All", "Controls", "Exclosures"),
                                   selected = "Controls"),
                       plotOutput("main_plot"),
-                      plotOutput("species_summary_plot"))),
+                      plotOutput("species_summary_plot"),
+                      plotOutput("test_report"))),
+            tabPanel("Evaluation",
+              mainPanel(
+                h2("Most recent observation vs forecasts"),
+                        selectInput("treatment_report",
+                                  "Treatment",
+                                  c("All", "Controls", "Exclosures"),
+                                  selected = "Controls"),
+                plotOutput("report_species_summary_plot"),
+                                  )),
             tabPanel("About", includeMarkdown("about.md")),
             tabPanel("Models", includeHTML("models.html")),
             tabPanel("Rodent Profiles", includeHTML("profile.html"))
@@ -85,6 +95,22 @@ output$species_summary_plot <- renderPlot({
                          highlight_sp = toupper(species))
   }
   p
+})
+
+output$report_main_plot <- renderPlot({
+  if (input$species == "All") {
+    p <- plot_cast_ts(data_set = tolower(input$treatment))
+  } else {
+    species <- species_names$species[species_names$scientificname == input$species]
+    p <- plot_cast_ts(data_set = tolower(input$treatment),
+                      species = toupper(species))
+  }
+  p
+})
+
+output$report_species_summary_plot <- renderPlot({
+  p <- plot_cast_point(data_set = tolower(input$treatment_report),
+                       with_census = TRUE) 
 })
 
 }
