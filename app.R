@@ -36,6 +36,8 @@ species_list <- c("All", species_names$scientificname)
 # Remove PI from species list
 species_list[species_list != "Chaetodipus intermedius"]
 
+model_list = prefab_models()
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
@@ -59,12 +61,23 @@ ui <- fluidPage(
             tabPanel("Evaluation",
               mainPanel(
                 h2("Most recent observation vs forecasts"),
-                        selectInput("treatment_report",
+                selectInput("treatment_report",
                                   "Treatment",
                                   c("All", "Controls", "Exclosures"),
                                   selected = "Controls"),
                 plotOutput("report_species_summary_plot"),
-                                  )),
+                h2("Model Coverage & RMSE (last 3 years of forecasts)"),
+                selectInput("species_report",
+                                  "Species",
+                                  species_list,
+                                  selected = "Dipodomys merriami"),
+                selectInput("model_report",
+                            "Model",
+                            model_list,
+                            multiple = TRUE,
+                            selected = "AutoArima"),
+                plotOutput("RMSE")
+                        )),
             tabPanel("About", includeMarkdown("about.md")),
             tabPanel("Models", includeHTML("models.html")),
             tabPanel("Rodent Profiles", includeHTML("profile.html"))
@@ -111,6 +124,13 @@ output$report_main_plot <- renderPlot({
 output$report_species_summary_plot <- renderPlot({
   p <- plot_cast_point(data_set = tolower(input$treatment_report),
                        with_census = TRUE) 
+})
+
+output$RMSE <- renderPlot({
+  species_report <- species_names$species[species_names$scientificname == input$species_report]
+  p <- plot_casts_cov_RMSE(models = input$model_report,
+         species = toupper(species_report),
+         ensemble = TRUE)
 })
 
 }
