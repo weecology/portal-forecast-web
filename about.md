@@ -4,6 +4,12 @@ title: "About Portal Forecasts"
 
 <br>
 
+Welcome to Portal Forecasting! This is a website run by the [Weecology](http://weecology.org/) team, comprised of [Ethan White's](http://whitelab.weecology.org/) and [Morgan Ernest's](http://ernestlab.weecology.org/) lab groups at the [University of Florida](http://www.wec.ufl.edu/). We are a group of interdisciplinary ecologists broadly interested in collaborative approaches to empirical and computation ecology, open science, and open data.
+
+On this website, you'll find information about our ongoing efforts to forecast a time series of rodent abundances from [The Portal project](http://portal.weecology.org/), a long-term experimental monitoring project in desert ecology. Enjoy! 
+
+<br>
+
 # Contributors
 
 [Ethan P. White](https://orcid.org/0000-0001-6728-7745), [Glenda M. Yenni](https://orcid.org/0000-0001-6969-1848), [Henry Senyondo](https://orcid.org/0000-0001-7105-5808), [Shawn D. Taylor](https://orcid.org/0000-0002-6178-6903), [Erica M. Christensen](https://orcid.org/0000-0002-5635-2502), [Ellen K. Bledsoe](https://orcid.org/0000-0002-3629-7235), [Juniper L. Simonis](https://orcid.org/0000-0001-9798-0460), and [S. K. Morgan Ernest](https://orcid.org/0000-0002-6026-8530)
