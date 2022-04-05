@@ -1,7 +1,9 @@
 ---
-title: "Current Models"
+title: "Models"
 ---
 
+
+<br>
 
 
 We currently analyze and forecast rodent data at Portal using eight models: ESSS, AutoArima, NaiveArima, nbGARCH, nbsGARCH, pevGARCH, jags_logistic, and jags_RW [@PortalPredictions]. Each model has a function with its name (*e.g.*, `ESSS()`) which is called from an associated R script in the `models` subdirectory with its name (*e.g.*, `ESSS.R`)
