@@ -38,7 +38,7 @@ species_list <- species_list[species_list != "Chaetodipus intermedius"]
 
 model_list = prefab_models()
 
-# Define UI for application that draws a histogram
+# Define UI 
 ui <- fluidPage(
 
     # Application title
@@ -85,7 +85,7 @@ ui <- fluidPage(
     )
 )
 
-# Define server logic required to draw a histogram
+# Define server logic required
 server <- function(input, output) {
 
 output$main_plot <- renderPlot({
