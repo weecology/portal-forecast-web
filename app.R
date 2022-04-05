@@ -34,7 +34,7 @@ species_names <- species_table %>%
                  select(species, scientificname)
 species_list <- c("All", species_names$scientificname)
 # Remove PI from species list
-species_list[species_list != "Chaetodipus intermedius"]
+species_list <- species_list[species_list != "Chaetodipus intermedius"]
 
 model_list = prefab_models()
 
