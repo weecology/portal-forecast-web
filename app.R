@@ -90,21 +90,21 @@ server <- function(input, output) {
 
 output$main_plot <- renderPlot({
   if (input$species == "All") {
-    p <- plot_cast_ts(data_set = tolower(input$treatment)) 
+    p <- plot_cast_ts(dataset = tolower(input$treatment)) 
   } else {
     species <- species_names$species[species_names$scientificname == input$species]
-    p <- plot_cast_ts(data_set = tolower(input$treatment), species = toupper(species))
+    p <- plot_cast_ts(dataset = tolower(input$treatment), species = toupper(species))
   }
   p
 })
 
 output$species_summary_plot <- renderPlot({
   if (input$species == "All") {
-    p <- plot_cast_point(data_set = tolower(input$treatment),
+    p <- plot_cast_point(dataset = tolower(input$treatment),
                          highlight_sp = ("total"))
   } else {
     species <- species_names$species[species_names$scientificname == input$species]
-    p <- plot_cast_point(data_set = tolower(input$treatment),
+    p <- plot_cast_point(dataset = tolower(input$treatment),
                          highlight_sp = toupper(species))
   }
   p
@@ -112,17 +112,17 @@ output$species_summary_plot <- renderPlot({
 
 output$report_main_plot <- renderPlot({
   if (input$species == "All") {
-    p <- plot_cast_ts(data_set = tolower(input$treatment))
+    p <- plot_cast_ts(dataset = tolower(input$treatment))
   } else {
     species <- species_names$species[species_names$scientificname == input$species]
-    p <- plot_cast_ts(data_set = tolower(input$treatment),
+    p <- plot_cast_ts(dataset = tolower(input$treatment),
                       species = toupper(species))
   }
   p
 })
 
 output$report_species_summary_plot <- renderPlot({
-  p <- plot_cast_point(data_set = tolower(input$treatment_report),
+  p <- plot_cast_point(dataset = tolower(input$treatment_report),
                        with_census = TRUE) 
 })
 
