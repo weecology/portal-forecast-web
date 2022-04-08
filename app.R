@@ -1,21 +1,7 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(shiny)
-library(shiny)
-library(dplyr)
-library(ggplot2)
-library(portalr)
-library(stats)
-library(lubridate)
-library(forecast)
 library(portalcasting)
+
 
 # Render Rmd files
 rmarkdown::render("models.Rmd")
@@ -27,16 +13,11 @@ rmarkdown::render("models.Rmd")
 # setup_production()
 
 # Get lists of species as both abbreviations and scientific names
-species_table <- portalr::load_rodent_data()$species_table
-species_abbrev_list <- portalcasting::rodent_species(set = "all")
-species_names <- species_table %>%
-                 inner_join(data.frame(species = species_abbrev_list), by = "species") %>%
-                 select(species, scientificname)
-species_list <- c("All", species_names$scientificname)
-# Remove PI from species list
-species_list <- species_list[species_list != "Chaetodipus intermedius"]
 
-model_list = prefab_models()
+species_names <- rodent_species(set = "base", type = "table")
+
+
+model_list <- prefab_models()
 
 # Define UI 
 ui <- fluidPage(
@@ -49,7 +30,7 @@ ui <- fluidPage(
             tabPanel("Forecast",
             mainPanel(selectInput("species",
                                   "Species",
-                                  species_list,
+                                  species_names$Latin,
                                   selected = "Dipodomys merriami"),
                       selectInput("treatment",
                                   "Treatment",
@@ -69,7 +50,7 @@ ui <- fluidPage(
                 h2("Model Coverage & RMSE (last 3 years of forecasts)"),
                 selectInput("species_report",
                                   "Species",
-                                  species_list,
+                                  species_names$Latin,
                                   selected = "Dipodomys merriami"),
                 selectInput("model_report",
                             "Model",
@@ -92,7 +73,7 @@ output$main_plot <- renderPlot({
   if (input$species == "All") {
     p <- plot_cast_ts(dataset = tolower(input$treatment)) 
   } else {
-    species <- species_names$species[species_names$scientificname == input$species]
+    species <- species_names$abbreviation[species_names$Latin == input$species]
     p <- plot_cast_ts(dataset = tolower(input$treatment), species = toupper(species))
   }
   p
@@ -103,7 +84,7 @@ output$species_summary_plot <- renderPlot({
     p <- plot_cast_point(dataset = tolower(input$treatment),
                          highlight_sp = ("total"))
   } else {
-    species <- species_names$species[species_names$scientificname == input$species]
+    species <- species_names$abbreviation[species_names$Latin == input$species]
     p <- plot_cast_point(dataset = tolower(input$treatment),
                          highlight_sp = toupper(species))
   }
@@ -114,7 +95,7 @@ output$report_main_plot <- renderPlot({
   if (input$species == "All") {
     p <- plot_cast_ts(dataset = tolower(input$treatment))
   } else {
-    species <- species_names$species[species_names$scientificname == input$species]
+    species <- species_names$abbreviation[species_names$Latin == input$species]
     p <- plot_cast_ts(dataset = tolower(input$treatment),
                       species = toupper(species))
   }
@@ -127,7 +108,7 @@ output$report_species_summary_plot <- renderPlot({
 })
 
 output$RMSE <- renderPlot({
-  species_report <- species_names$species[species_names$scientificname == input$species_report]
+  species_report <- species_names$abbreviation[species_names$Latin == input$species_report]
   p <- plot_casts_cov_RMSE(models = input$model_report,
          species = toupper(species_report),
          ensemble = TRUE)
