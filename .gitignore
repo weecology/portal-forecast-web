@@ -2,6 +2,7 @@
 /casts/
 /models/
 /raw/
+/data/
 
 # History files
 .Rhistory
