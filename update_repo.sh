@@ -5,5 +5,5 @@ if [ $changed = 1 ]; then
     R -e "install.packages('devtools', repos='https://cran.rstudio.com/')"
     R -e "devtools::install_github('weecology/portalcasting', upgrade = TRUE)"
 else
-    echo "Up-to-date"
+    echo "Up-to-date $(date)"
 fi
