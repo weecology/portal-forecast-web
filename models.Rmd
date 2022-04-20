@@ -1,5 +1,6 @@
 ---
 title: "Models"
+bibliography: refs.bibtex
 ---
 
 
