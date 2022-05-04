@@ -34,4 +34,4 @@ For further a big picture overview of the system see (our paper on this forecast
 
 This research was supported in part by the [National Science Foundation](http://nsf.gov/) through grant [DEB-1622425](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1622425) to S.K.M. Ernest and by the [Gordon and Betty Moore Foundation's Data-Driven Discovery Initiative](http://www.moore.org/programs/science/data-driven-discovery) through [Grant GBMF4563](http://www.moore.org/grants/list/GBMF4563) to E. P. White. 
 
-We thank Henry Senyondo for help with continuous integration, Hao Ye for feedback on documents and code, Heather Bradley for logistical support, John Abatzoglou for assistance with climate forecasts, and James Brown for establishing the Portal Project.
+We thank Hao Ye for feedback on documents and code, Heather Bradley for logistical support, John Abatzoglou for assistance with climate forecasts, and James Brown for establishing the Portal Project.
