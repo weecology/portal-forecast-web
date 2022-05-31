@@ -17,5 +17,8 @@ jobs:
       CRAN_REPO: https://packagemanager.rstudio.com/all/__linux__/focal/latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install package dependencies
+        run: |
+          install.packages(c("shiny"))
       - name: Check
         run: Rscript tests/test_app_build.R
