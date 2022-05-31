@@ -1,5 +1,11 @@
 # Portal Forecast Website
 
+[![App build](https://github.com/weecology/portal-forecast-web/actions/workflows/app_build.yaml/badge.svg)](https://github.com/weecology/portal-forecast-web/actions/workflows/app_build.yaml)
+[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/weecology/portalPredictions/master/LICENSE)
+[![NSF-1929730](https://img.shields.io/badge/NSF-1929730-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1929730)
+
+
 Code to build the [website](https://portal.naturecast.org/) for the [automated forecasting](https://github.com/weecology/portalPredictions) of [desert rodent populations](https://portal.weecology.org/).
 
 ## Acknowledgements 
