@@ -20,5 +20,6 @@ jobs:
       - name: Install package dependencies
         run: |
           install.packages(c("shiny"))
+        shell: Rscript {0}
       - name: Check
         run: Rscript tests/test_app_build.R
