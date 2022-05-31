@@ -1,0 +1,25 @@
+# Verifying that the app can be built
+
+on:
+  push:
+  pull_request:
+
+name: App build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://weecology/portalcasting:latest
+    env:
+      R_DEFAULT_INTERNET_TIMEOUT: 300
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CRAN_REPO: https://packagemanager.rstudio.com/all/__linux__/focal/latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install package dependencies
+        run: |
+          install.packages(c("markdown", "shiny"))
+        shell: Rscript {0}
+      - name: Check
+        run: Rscript tests/test_app_build.R
