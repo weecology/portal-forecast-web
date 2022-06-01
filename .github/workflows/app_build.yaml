@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install package dependencies
         run: |
-          install.packages(c("markdown", "shiny"))
+          install.packages(c("english", "markdown", "shiny"))
         shell: Rscript {0}
       - name: Check
         run: Rscript tests/test_app_build.R
