@@ -4,7 +4,6 @@ if [ $changed = 1 ]; then
     git reset --hard origin/main && git pull
     R -e "install.packages('devtools', repos='https://cran.rstudio.com/')"
     R -e "devtools::install_github('weecology/portalcasting', upgrade = TRUE)"
-    sudo su  -c "R -e \"library(portalcasting); setup_production()\""
 
     # Update setup directory every friday 
     friday_start=52335
