@@ -1,0 +1,32 @@
+setup:
+  date: '2022-11-09'
+  R_version:
+    platform: x86_64-w64-mingw32
+    arch: x86_64
+    os: mingw32
+    crt: ucrt
+    system: x86_64, mingw32
+    status: ''
+    major: '4'
+    minor: '2.1'
+    year: '2022'
+    month: '06'
+    day: '23'
+    svn rev: '82513'
+    language: R
+    version.string: R version 4.2.1 (2022-06-23 ucrt)
+    nickname: Funny-Looking Kid
+  core_package_name: portalcasting
+  core_package_version: 0.44.0
+tree:
+  main: '.'
+  subdirectories:
+    forecasts: forecasts
+    fits: fits
+    models: models
+    resources: resources
+    data: data
+raw:
+  PortalData_version: 3.139.0
+  archive_version: latest
+  climate_forecast_version: '2022-11-09'
