@@ -10,7 +10,7 @@ rmarkdown::render("models.Rmd")
 
 main <- "app"
 
-setup_production(main = main)
+#setup_production(main = main)
 
 # Get lists of species as both abbreviations and scientific names
 
@@ -20,4 +20,4 @@ model_list <- c(prefab_models(), "Ensemble")
 model_list <- model_list[!(model_list %in% c("jags_logistic", "jags_logistic_covariates"))]
 
 # Run the application 
-runApp(appDir = main)
+runApp(appDir = ".")
