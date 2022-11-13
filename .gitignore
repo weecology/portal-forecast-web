@@ -3,6 +3,8 @@
 /models/
 /raw/
 /data/
+forecasts
+resources
 
 # History files
 .Rhistory
