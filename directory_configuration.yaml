@@ -1,21 +1,20 @@
 setup:
-  date: '2022-11-09'
+  date: '2022-11-12'
   R_version:
-    platform: x86_64-w64-mingw32
+    platform: x86_64-apple-darwin17.0
     arch: x86_64
-    os: mingw32
-    crt: ucrt
-    system: x86_64, mingw32
+    os: darwin17.0
+    system: x86_64, darwin17.0
     status: ''
     major: '4'
-    minor: '2.1'
+    minor: '2.0'
     year: '2022'
-    month: '06'
-    day: '23'
-    svn rev: '82513'
+    month: '04'
+    day: '22'
+    svn rev: '82229'
     language: R
-    version.string: R version 4.2.1 (2022-06-23 ucrt)
-    nickname: Funny-Looking Kid
+    version.string: R version 4.2.0 (2022-04-22)
+    nickname: Vigorous Calisthenics
   core_package_name: portalcasting
   core_package_version: 0.44.0
 tree:
@@ -27,6 +26,6 @@ tree:
     resources: resources
     data: data
 raw:
-  PortalData_version: 3.139.0
+  PortalData_version: 3.140.0
   archive_version: latest
-  climate_forecast_version: '2022-11-09'
+  climate_forecast_version: '2022-11-12'
