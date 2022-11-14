@@ -5,6 +5,7 @@
 /data/
 forecasts
 resources
+*directory_configuration.yaml*
 
 # History files
 .Rhistory
