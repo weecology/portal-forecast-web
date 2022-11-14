@@ -16,4 +16,4 @@ rmarkdown::render("models.Rmd")
 species_names <- rodent_species(set = "base", type = "table")
 
 model_list <- c(prefab_models(), "Ensemble")
-model_list <- model_list[model_list %in% c("jags_logistic", "jags_logistic_covariates")]
+model_list <- model_list[!(model_list %in% c("jags_logistic", "jags_logistic_covariates"))]
