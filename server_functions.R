@@ -1,55 +1,74 @@
 
-portalForecastServer <- function(input, output) {
+portalForecastServer <- function(input, output, session) {
+
+  rv     <- initialReactiveValues( )
+  output <- initialOutput(rv     = rv, 
+                          output = output)
+
+  observeEvent(eventExpr   = input$forecastTabSpecies,
+               handlerExpr = eventReaction(eventName = "forecastTabSpecies", rv = rv, input = input, output = output, session = session))
+#  observeEvent(eventExpr   = input$x,
+#               handlerExpr = eventReaction(eventName = "x", rv = rv, input = input, output = output, session = session))
 
 
-  forecastTabSpeciesInput <- reactive({
+}
 
-    species_options        <- as.list(rodent_species(set = "base", type = "Latin"))
-    names(species_options) <- rodent_species(set = "base", type = "abbreviation")
+eventReaction <- function (eventName, rv, input, output, session) {
 
-    switch(EXPR = input$forecastTabSpecies,
-           ...  = species_options)
+  rv     <- updateReactiveValues(eventName = eventName, rv = rv, input = input)
+  output <- updateOutput(eventName = eventName, rv = rv, input = input, output = output)
 
-  })
+  updateInput(eventName = eventName, rv = rv, input = input, session = session)
 
-  forecastTabDatasetInput <- reactive({
+}
 
-    dataset_options        <- as.list(prefab_datasets())
-    names(dataset_options) <- prefab_datasets()
+updateReactiveValues <- function (eventName, rv, input) {
 
-    switch(EXPR = input$forecastTabDataset,
-           ...  = dataset_options)
+  if (eventName == "forecastTabSpecies") {
 
-  })
+    rv$forecastTabSpecies <- input$forecastTabSpecies
+    rv$x <- tolower(substr(rv$forecastTabSpecies, 1, 1))
 
-  forecastTabModelInput <- reactive({
+  }
 
-    model_options        <- as.list(prefab_models())
-    names(model_options) <- prefab_models()
+  rv
 
-    switch(EXPR = input$forecastTabModel,
-           ...  = model_options)
+}
 
-  })
+updateOutput <- function (eventName, rv, input, output) {
+
+  if (eventName == "forecastTabSpecies") {
+
+    output$forecastTabSpecies <- renderText(rv$forecastTabSpecies)
+
+    output$x <- renderText(rv$x)
+
+  }
+
+}
+
+updateInput <- function (eventName, rv, input, output, session) {
+
+  if (eventName == "forecastTabSpecies") {
+
+    updateSelectInput(session = session, inputId = "forecastTabSpecies", choices = rodent_species(set = "base", type = "Latin"), selected = rv$forecastTabSpecies)
+    updateSelectInput(session = session, inputId = "x", choices = letters, selected = rv$x)
+
+  }
+
+}
 
 
-  output$forecastTabSpecies <- renderText({
 
-    input$forecastTabSpecies
+initialReactiveValues <- function ( ) {
 
-  })
+  reactiveValues(forecastTabSpecies = "Dipodomys merriami")
 
-  output$forecastTabDataset <- renderText({
+}
 
-    input$forecastTabDataset
 
-  })
+initialOutput <- function (rv, output) {
 
-  output$forecastTabModel <- renderText({
-
-    input$forecastTabModel
-
-  })
-
+  output
 
 }
