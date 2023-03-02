@@ -7,8 +7,8 @@ portalForecastServer <- function(input, output, session) {
 
   observeEvent(eventExpr   = input$forecastTabSpecies,
                handlerExpr = eventReaction(eventName = "forecastTabSpecies", rv = rv, input = input, output = output, session = session))
-#  observeEvent(eventExpr   = input$x,
-#               handlerExpr = eventReaction(eventName = "x", rv = rv, input = input, output = output, session = session))
+  observeEvent(eventExpr   = input$forecastTabDataset,
+               handlerExpr = eventReaction(eventName = "forecastTabDataset", rv = rv, input = input, output = output, session = session))
 
 
 }
@@ -27,7 +27,13 @@ updateReactiveValues <- function (eventName, rv, input) {
   if (eventName == "forecastTabSpecies") {
 
     rv$forecastTabSpecies <- input$forecastTabSpecies
-    rv$x <- tolower(substr(rv$forecastTabSpecies, 1, 1))
+    rv$forecastTabDataset <- input$forecastTabDataset
+
+  }
+  if (eventName == "forecastTabDataset") {
+
+    rv$forecastTabSpecies <- input$forecastTabSpecies
+    rv$forecastTabDataset <- input$forecastTabDataset
 
   }
 
@@ -40,10 +46,17 @@ updateOutput <- function (eventName, rv, input, output) {
   if (eventName == "forecastTabSpecies") {
 
     output$forecastTabSpecies <- renderText(rv$forecastTabSpecies)
-
-    output$x <- renderText(rv$x)
+    output$forecastTabDataset <- renderText(rv$forecastTabDataset)
 
   }
+  if (eventName == "forecastTabDataset") {
+
+    output$forecastTabSpecies <- renderText(rv$forecastTabSpecies)
+    output$forecastTabDataset <- renderText(rv$forecastTabDataset)
+
+  }
+
+  output
 
 }
 
@@ -52,17 +65,48 @@ updateInput <- function (eventName, rv, input, output, session) {
   if (eventName == "forecastTabSpecies") {
 
     updateSelectInput(session = session, inputId = "forecastTabSpecies", choices = rodent_species(set = "base", type = "Latin"), selected = rv$forecastTabSpecies)
-    updateSelectInput(session = session, inputId = "x", choices = letters, selected = rv$x)
+    updateSelectInput(session = session, inputId = "forecastTabDataset", choices = available_datasets(species = rv$forecastTabSpecies), selected = selected_dataset(species = rv$forecastTabSpecies, dataset = rv$forecastTabDataset))
+
+  }
+  if (eventName == "forecastTabDataset") {
+
+    updateSelectInput(session = session, inputId = "forecastTabSpecies", choices = rodent_species(set = "base", type = "Latin"), selected = rv$forecastTabSpecies)
+    updateSelectInput(session = session, inputId = "forecastTabDataset", choices = available_datasets(species = rv$forecastTabSpecies), selected = selected_dataset(species = rv$forecastTabSpecies, dataset = rv$forecastTabDataset))
 
   }
 
 }
 
+selected_dataset <- function (species, dataset) {
 
+  available <- available_datasets(species = species)
+
+  if (!(dataset %in% available)) {
+
+    dataset <- available[1]
+
+  }  
+
+  dataset
+
+}
+
+available_datasets <- function (species) {
+
+  possible <- prefab_datasets()
+  if (grepl("Dipodomys", species)) {
+
+    possible <- c("all", "controls")
+
+  }
+  possible
+
+}
 
 initialReactiveValues <- function ( ) {
 
-  reactiveValues(forecastTabSpecies = "Dipodomys merriami")
+  reactiveValues(forecastTabSpecies = "Dipodomys merriami", 
+                 forecastTabDataset = "all")
 
 }
 

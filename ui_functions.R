@@ -22,7 +22,7 @@ forecastTab <- function ( ) {
            br( ), 
            forecastTabInputSelectionRow ( ), 
            textOutput("forecastTabSpecies"), 
-           textOutput("x"))
+           textOutput("forecastTabDataset"))
 
 }
 
@@ -31,7 +31,7 @@ forecastTabInputSelectionRow <- function ( ) {
 
 
   fluidRow(forecastTabInputSelectionRowSpecies( ),
-           forecastTabInputSelectionRowx( ))
+           forecastTabInputSelectionRowDataset( ))
 
 
 
@@ -48,13 +48,13 @@ forecastTabInputSelectionRowSpecies <- function ( ) {
 
 }
 
-forecastTabInputSelectionRowx <- function ( ) {
+forecastTabInputSelectionRowDataset <- function ( ) {
 
   column(width = 4,
-         selectInput(inputId  = "x",
-                     label    = "TESTX",
-                     choices  = letters,
-                     selected = "d"))
+         selectInput(inputId  = "forecastTabDataset",
+                     label    = "Dataset",
+                     choices  = prefab_datasets(),
+                     selected = "controls"))
 
 }
 
