@@ -1,4 +1,3 @@
-library(portalcasting)
 source("server_functions.R")
-
+library(portalcasting)
 portalForecastServer

@@ -17,3 +17,4 @@ species_names <- rodent_species(set = "base", type = "table")
 
 model_list <- c(prefab_models(), "Ensemble")
 model_list <- model_list[!(model_list %in% c("jags_logistic", "jags_logistic_covariates", "jags_logistic_competition", "jags_logistic_competition_covariates"))]
+

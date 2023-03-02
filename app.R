@@ -1,4 +1,8 @@
+
+
 library(shiny)
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+
+# Create Shiny app ----
+shinyApp(ui, server)
+
