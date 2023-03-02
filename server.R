@@ -2,7 +2,7 @@ source("util.R")
 
 # Define server logic required
 
-server <- function(input, output, main = "~/portalcasting") {
+server <- function(input, output, main = ".") {
 
   output$main_plot <- renderPlot({
 
