@@ -1,0 +1,20 @@
+---
+title: "Our Rodent Species"
+---
+<br>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+table_in <- read.csv("www/rodents.csv")
+table_in$species[is.na(table_in$species)] <- "NA"
+
+
+table_out <- data.frame(Rodents         = paste0("!['", table_in$image_alt_text, "'](www/", table_in$species, ".png)"),
+                        Scientific.Name = table_in$scientific_name,
+                        Common.Name     = table_in$common_name,
+                        Description     = table_in$species_description)
+
+knitr::kable(table_out)
+
+```
+ 
