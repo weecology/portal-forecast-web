@@ -5,6 +5,9 @@ library(portalcasting)
 # Render Rmd files
 rmarkdown::render("models.Rmd")
 
+# Make the HTML file for the rodent profiles page
+source("html_gen.R")
+
 # Data setup
 
 # Need to set this up to only run periodically external
