@@ -22,7 +22,8 @@ forecastTab <- function ( ) {
            br( ), 
            forecastTabInputSelectionRow ( ), 
            textOutput("forecastTabSpecies"), 
-           textOutput("forecastTabDataset"))
+           textOutput("forecastTabDataset"), 
+           textOutput("forecastTabModel"))
 
 }
 
@@ -31,7 +32,8 @@ forecastTabInputSelectionRow <- function ( ) {
 
 
   fluidRow(forecastTabInputSelectionRowSpecies( ),
-           forecastTabInputSelectionRowDataset( ))
+           forecastTabInputSelectionRowDataset( ),
+           forecastTabInputSelectionRowModel( ))
 
 
 
@@ -55,6 +57,17 @@ forecastTabInputSelectionRowDataset <- function ( ) {
                      label    = "Dataset",
                      choices  = prefab_datasets(),
                      selected = "controls"))
+
+}
+
+
+forecastTabInputSelectionRowModel <- function ( ) {
+
+  column(width = 4,
+         selectInput(inputId  = "forecastTabModel",
+                     label    = "Model",
+                     choices  = prefab_models(),
+                     selected = "nbsGARCH"))
 
 }
 
