@@ -1,5 +1,0 @@
-currently working here in a good spot with the three inputs and individual reactivity, 
-now need to have it update the options
-
-start with a very toy example, like when species is PP no controls or something one for one first
-then build a proper table out of the way to operate
