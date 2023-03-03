@@ -377,15 +377,16 @@ display: none;
 
 <p><br></p>
 <p>We currently analyze and forecast rodent data at Portal using eleven
-models: AutoArima, ESSS, NaiveArima, nbGARCH, nbsGARCH, pevGARCH,
-jags_RW, jags_logistic, jags_logistic_covariates,
-jags_logistic_competition, jags_logistic_competition_covariates <span class="citation">(WeecologyLab 2019)</span>. Each model has a function
-with its name (<em>e.g.</em>, <code>ESSS()</code>) which is called from
-an associated R script in the <code>models</code> subdirectory with its
-name (<em>e.g.</em>, <code>ESSS.R</code>)</p>
+models: AutoARIMA, ESSS, NaiveARIMA, nbGARCH, nbsGARCH, pevGARCH, Random
+Walk, Logistic, Logistic Covariates, Logistic Competition, Logistic
+Competition Covariates <span class="citation">(WeecologyLab
+2019)</span>. Each model has a function with its name (<em>e.g.</em>,
+<code>ESSS()</code>) which is called from an associated R script in the
+<code>models</code> subdirectory with its name (<em>e.g.</em>,
+<code>ESSS.R</code>)</p>
 <div id="autoarima" class="section level2">
-<h2>AutoArima</h2>
-<p>AutoArima (Automatic Auto-Regressive Integrated Moving Average) is a
+<h2>AutoARIMA</h2>
+<p>AutoARIMA (Automatic Auto-Regressive Integrated Moving Average) is a
 flexible Auto-Regressive Integrated Moving Average (ARIMA) model fit to
 the data at the composite (full site and just control plots) spatial
 level and both the composite (community) and the articulated (species)
@@ -400,7 +401,7 @@ of the moving average (q), and are represented as ARIMA(p, d, q) <span class="ci
 <code>auto.arima</code> function allows for seasonal models, the
 seasonality is hard-coded to be on the same period as the sampling,
 which is not the case for the Portal rodent surveys. As a result, no
-seasonal models were evaluated. AutoArima is fit flexibly, such that the
+seasonal models were evaluated. AutoARIMA is fit flexibly, such that the
 model parameters can vary from fit to fit.</p>
 </div>
 <div id="esss" class="section level2">
@@ -428,8 +429,8 @@ include the seasonal components to the ESSS model. ESSS is fit flexibly,
 such that the model parameters can vary from fit to fit.</p>
 </div>
 <div id="naivearima" class="section level2">
-<h2>NaiveArima</h2>
-<p>NaiveArima (Naive Auto-Regressive Integrated Moving Average) is a
+<h2>NaiveARIMA</h2>
+<p>NaiveARIMA (Naive Auto-Regressive Integrated Moving Average) is a
 fixed Auto-Regressive Integrated Moving Average (ARIMA) model of order
 (0,1,0) fit to the data at the composite (full site and just control
 plots) spatial level and both the composite (community) and the
@@ -524,107 +525,109 @@ min temp, precipitation; [4] precipitation, NDVI; [5] min temp, NDVI;
 and [11] -none- (intercept-only). The single best model of the 11 is
 selected based on AIC.</p>
 </div>
-<div id="jags_rw" class="section level2">
-<h2>jags_RW</h2>
-<p>jags_RW fits a hierarchical log-scale density random walk model with
-a Poisson observation process using the JAGS (Just Another Gibbs
+<div id="random-walk" class="section level2">
+<h2>Random Walk</h2>
+<p>Random Walk fits a hierarchical log-scale density random walk model
+with a Poisson observation process using the JAGS (Just Another Gibbs
 Sampler) infrastructure <span class="citation">(Plummer 2003)</span> fit
 to the data at the composite (full site but just control plots) spatial
 level and the articulated (species) ecological level. Similar to the
-NaiveArima model, jags_RW has an ARIMA order of (0,1,0), but in jags_RW,
-it is the underlying density that takes a random walk on the log scale,
-whereas in NaiveArima, it is the raw counts that take a random walk on
-the observation scale. There are two process parameters – mu (the
-density of the species at the beginning of the time series) and sigma
-(the standard deviation of the random walk, which is Gaussian on the log
-scale). The observation model has no additional parameters. The prior
-distributions for mu is informed by the available data collected prior
-to the start of the data used in the time series. mu is normally
+NaiveArima model, Random Walk has an ARIMA order of (0,1,0), but in
+Random Walk, it is the underlying density that takes a random walk on
+the log scale, whereas in NaiveArima, it is the raw counts that take a
+random walk on the observation scale. There are two process parameters –
+mu (the density of the species at the beginning of the time series) and
+sigma (the standard deviation of the random walk, which is Gaussian on
+the log scale). The observation model has no additional parameters. The
+prior distributions for mu is informed by the available data collected
+prior to the start of the data used in the time series. mu is normally
 distributed with a mean equal to the average log-scale density and a
 standard deviation of 0.04. Sigma was given a uniform distribution
 between 0 and 1.</p>
 </div>
-<div id="jags_logistic" class="section level2">
-<h2>jags_logistic</h2>
-<p>jags_logistic fits a hierarchical log-scale density logistic growth
-model with a Poisson observation process using the JAGS (Just Another
-Gibbs Sampler) infrastructure <span class="citation">(Plummer
-2003)</span> fit to the data at the composite (full site but just
-control plots) spatial level and the articulated (species) ecological
-level. Building upon the jags_RW model, jags_logistic expands upon the
-“process model” underlying the Poisson observations. There are four
-process parameters – mu (the density of the species at the beginning of
-the time series), sigma (the standard deviation of the random walk,
-which is Gaussian on the log scale), r (growth rate), and K (carrying
-capacity). The observation model has no additional parameters. The prior
-distributions for mu and K are informed by the available data collected
-prior to the start of the data used in the time series and sigma and r
-are set with vague priors. mu is normally distributed with a mean equal
-to the average log-scale density and a standard deviation of 0.04. K is
-modeled on the log-scale with a prior mean equal to the maximum of
-<code>past counts</code> and a standard deviation of 0.04. r is given a
-normal prior with mean 0 and standard deviation 0.04. Sigma was given a
-uniform distribution between 0 and 1.</p>
-</div>
-<div id="jags_logistic_covariates" class="section level2">
-<h2>jags_logistic_covariates</h2>
-<p>jags_logistic_covariates fits a hierarchical log-scale density
-logistic growth model with a Poisson observation process using the JAGS
-(Just Another Gibbs Sampler) infrastructure <span class="citation">(Plummer 2003)</span> fit to the data at the composite
-(full site but just control plots) spatial level and the articulated
-(species) ecological level. Building upon the jags_logistic model,
-jags_logistic_covariates expands upon the “process model” underlying the
-Poisson observations. There are six process parameters – mu (the density
-of the species at the beginning of the time series), sigma (the standard
-deviation of the random walk, which is Gaussian on the log scale), and
-then intercept and slope parameters for r (growth rate) and K (carrying
-capacity) as a function of covariates (r being a function of the
-integrated warm rain over the past 3 months and K being a function of
-average NDVI over the past year). The observation model has no
-additional parameters. The prior distributions for mu and the K
-intercept are informed by the available data collected prior to the
-start of the data used in the time series and sigma and r are set with
-vague priors. mu is normally distributed with a mean equal to the
-average log-scale density and standard deviation 0.04. The K intercept
-is modeled on the log-scale with a prior mean equal to the maximum of
-<code>past counts</code> and standard deviation 0.04. The r intercept is
-given a normal prior with mean 0 and standard deviation 0.04. Sigma was
-given a uniform distribution between 0 and 1. The slopes for r and
-log-scale K were given priors with mean 0 and standard deviation 1.</p>
-</div>
-<div id="jags_logistic_competition" class="section level2">
-<h2>jags_logistic_competition</h2>
-<p>jags_logistic_competition fits a hierarchical log-scale density
-logistic growth model with a Poisson observation process using the JAGS
-(Just Another Gibbs Sampler) infrastructure <span class="citation">(Plummer 2003)</span> fit to the data at the composite
-(full site but just control plots) spatial level and the articulated
-(species) ecological level. Building upon the jags_logistic model,
-jags_logistic_competition expands upon the “process model” underlying
-the Poisson observations. There are six process parameters – mu (the
+<div id="logistic" class="section level2">
+<h2>Logistic</h2>
+<p>Logistic fits a hierarchical log-scale density logistic growth model
+with a Poisson observation process using the JAGS (Just Another Gibbs
+Sampler) infrastructure <span class="citation">(Plummer 2003)</span> fit
+to the data at the composite (full site but just control plots) spatial
+level and the articulated (species) ecological level. Building upon the
+jags_RW model, Logistic expands upon the “process model” underlying the
+Poisson observations. There are four process parameters – mu (the
 density of the species at the beginning of the time series), sigma (the
 standard deviation of the random walk, which is Gaussian on the log
-scale), and then intercept and slope parameters for r (growth rate) and
-K (carrying capacity) as a function of competitior density (K being a
-function of current DO counts). The observation model has no additional
-parameters. The prior distributions for mu and the K intercept are
-informed by the available data collected prior to the start of the data
-used in the time series and sigma and r are set with vague priors. mu is
-normally distributed with a mean equal to the average log-scale density
-and standard deviation 0.04. The K intercept is modeled on the log-scale
+scale), r (growth rate), and K (carrying capacity). The observation
+model has no additional parameters. The prior distributions for mu and K
+are informed by the available data collected prior to the start of the
+data used in the time series and sigma and r are set with vague priors.
+mu is normally distributed with a mean equal to the average log-scale
+density and a standard deviation of 0.04. K is modeled on the log-scale
+with a prior mean equal to the maximum of <code>past counts</code> and a
+standard deviation of 0.04. r is given a normal prior with mean 0 and
+standard deviation 0.04. Sigma was given a uniform distribution between
+0 and 1.</p>
+</div>
+<div id="logistic-covariates" class="section level2">
+<h2>Logistic Covariates</h2>
+<p>Logistic Covariates fits a hierarchical log-scale density logistic
+growth model with a Poisson observation process using the JAGS (Just
+Another Gibbs Sampler) infrastructure <span class="citation">(Plummer
+2003)</span> fit to the data at the composite (full site but just
+control plots) spatial level and the articulated (species) ecological
+level. Building upon the jags_logistic model, Logistic Covariates
+expands upon the “process model” underlying the Poisson observations.
+There are six process parameters – mu (the density of the species at the
+beginning of the time series), sigma (the standard deviation of the
+random walk, which is Gaussian on the log scale), and then intercept and
+slope parameters for r (growth rate) and K (carrying capacity) as a
+function of covariates (r being a function of the integrated warm rain
+over the past 3 months and K being a function of average NDVI over the
+past year). The observation model has no additional parameters. The
+prior distributions for mu and the K intercept are informed by the
+available data collected prior to the start of the data used in the time
+series and sigma and r are set with vague priors. mu is normally
+distributed with a mean equal to the average log-scale density and
+standard deviation 0.04. The K intercept is modeled on the log-scale
 with a prior mean equal to the maximum of <code>past counts</code> and
 standard deviation 0.04. The r intercept is given a normal prior with
 mean 0 and standard deviation 0.04. Sigma was given a uniform
-distribution between 0 and 0.001. The slope for log-scale K was given a
-prior with mean 0 and standard deviation 1.</p>
+distribution between 0 and 1. The slopes for r and log-scale K were
+given priors with mean 0 and standard deviation 1.</p>
 </div>
-<div id="jags_logistic_competition_covariates" class="section level2">
-<h2>jags_logistic_competition_covariates</h2>
-<p>jags_logistic_competition_covariates fits a hierarchical log-scale
-density logistic growth model with a Poisson observation process using
-the JAGS (Just Another Gibbs Sampler) infrastructure <span class="citation">(Plummer 2003)</span> fit to the data at the composite
+<div id="logistic-competition" class="section level2">
+<h2>Logistic Competition</h2>
+<p>Logistic Competition fits a hierarchical log-scale density logistic
+growth model with a Poisson observation process using the JAGS (Just
+Another Gibbs Sampler) infrastructure <span class="citation">(Plummer
+2003)</span> fit to the data at the composite (full site but just
+control plots) spatial level and the articulated (species) ecological
+level. Building upon the jags_logistic model, Logistic Competition
+expands upon the “process model” underlying the Poisson observations.
+There are six process parameters – mu (the density of the species at the
+beginning of the time series), sigma (the standard deviation of the
+random walk, which is Gaussian on the log scale), and then intercept and
+slope parameters for r (growth rate) and K (carrying capacity) as a
+function of competitior density (K being a function of current DO
+counts). The observation model has no additional parameters. The prior
+distributions for mu and the K intercept are informed by the available
+data collected prior to the start of the data used in the time series
+and sigma and r are set with vague priors. mu is normally distributed
+with a mean equal to the average log-scale density and standard
+deviation 0.04. The K intercept is modeled on the log-scale with a prior
+mean equal to the maximum of <code>past counts</code> and standard
+deviation 0.04. The r intercept is given a normal prior with mean 0 and
+standard deviation 0.04. Sigma was given a uniform distribution between
+0 and 0.001. The slope for log-scale K was given a prior with mean 0 and
+standard deviation 1.</p>
+</div>
+<div id="logistic-competition-covariates" class="section level2">
+<h2>Logistic Competition Covariates</h2>
+<p>Logistic Competition Covariates fits a hierarchical log-scale density
+logistic growth model with a Poisson observation process using the JAGS
+(Just Another Gibbs Sampler) infrastructure <span class="citation">(Plummer 2003)</span> fit to the data at the composite
 (full site but just control plots) spatial level and the articulated
 (species) ecological level. Building upon the jags_logistic model,
-jags_logistic_competition_covariates expands upon the “process model”
+Logistic Competition Covariates expands upon the “process model”
 underlying the Poisson observations. There are seven process parameters
 – mu (the density of the species at the beginning of the time series),
 sigma (the standard deviation of the random walk, which is Gaussian on

@@ -119,13 +119,20 @@ forecastTabInputSelectionRowDataset <- function ( ) {
 
 }
 
+model_list <- function ( ) {
+
+  out <- prefab_models()
+  names(out) <- unlist(mapply(getElement, prefab_model_controls(), "metadata")["print_name", ])
+
+  out
+}
 
 forecastTabInputSelectionRowModel <- function ( ) {
 
   column(width = 4,
          selectInput(inputId  = "forecastTabModel",
                      label    = "Model",
-                     choices  = prefab_models(),
+                     choices  = model_list(),
                      selected = "nbsGARCH"))
 
 }
@@ -169,7 +176,7 @@ evaluationTabInputSelectionRowModel <- function ( ) {
   column(width = 4,
          selectInput(inputId  = "evaluationTabModel",
                      label    = "Model",
-                     choices  = prefab_models(),
+                     choices  = model_list(),
                      selected = "nbsGARCH"))
 
 }

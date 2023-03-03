@@ -397,7 +397,7 @@ selected_model <- function (eventName,
 available_models <- function (eventName, 
                               rv) {
 
-  possible <- prefab_models()
+  possible <- model_list()
 
     if (grepl("forecastTab", eventName)) {
 
