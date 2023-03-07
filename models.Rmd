@@ -10,7 +10,7 @@ bibliography: refs.bibtex
 
 
   model_controls <- prefab_model_controls( )
-  model_names    <- names(model_list( ))
+  model_names    <- unlist(lapply(lapply(model_controls, getElement, "metadata"), getElement, "print_name"))
   nmodels        <- length(model_names)
   nmodels_text   <- as.character(english::english(nmodels))
 
