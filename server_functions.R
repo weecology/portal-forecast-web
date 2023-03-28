@@ -1,7 +1,7 @@
 
-portalForecastServer <- function(main = ".", input, output, session) {
+portalForecastServer <- function(main = "~/portalcasting", input, output, session) {
 
-  rv     <- initialReactiveValues( )
+  rv     <- initialReactiveValues(main = main)
   output <- initialOutput(rv     = rv, 
                           output = output)
 
@@ -53,7 +53,8 @@ portalForecastServer <- function(main = ".", input, output, session) {
 
 eventReaction <- function (main, eventName, rv, input, output, session) {
 
-  rv     <- updateReactiveValues(eventName = eventName, 
+  rv     <- updateReactiveValues(main      = main, 
+                                 eventName = eventName, 
                                  rv        = rv, 
                                  input     = input)
 
@@ -64,14 +65,15 @@ eventReaction <- function (main, eventName, rv, input, output, session) {
                          input     = input, 
                          output    = output)
 
-  updateInput(eventName = eventName, 
+  updateInput(main      = main, 
+              eventName = eventName, 
               rv        = rv, 
               input     = input, 
               session   = session)
 
 }
 
-updateReactiveValues <- function (eventName, rv, input) {
+updateReactiveValues <- function (main, eventName, rv, input) {
 
   if (eventName == "forecastTabSpecies") {
 
@@ -123,7 +125,6 @@ updateReactiveValues <- function (eventName, rv, input) {
 
 updateOutput <- function (main, eventName, rv, input, output) {
 
-  species_names <- rodent_species(set = "base", type = "table")
 
   if (eventName == "forecastTabSpecies") {
 
@@ -132,11 +133,11 @@ updateOutput <- function (main, eventName, rv, input, output) {
     output$forecastTabModel   <- renderText(rv$forecastTabModel)
     output$forecastTabTSPlot  <- renderPlot(plot_cast_ts(main    = main,
                                                          dataset = rv$forecastTabDataset,
-                                                         species = toupper(species_names$abbreviation[species_names$Latin == rv$forecastTabSpecies]),
+                                                         species = rv$forecastTabSpecies,
                                                          model   = rv$forecastTabModel))
     output$forecastTabSSPlot  <- renderPlot(plot_cast_point(main         = main,
                                                             dataset      = rv$forecastTabDataset,
-                                                            highlight_sp = toupper(species_names$abbreviation[species_names$Latin == rv$forecastTabSpecies]),
+                                                            highlight_sp = rv$forecastTabSpecies,
                                                             model        = rv$forecastTabModel))
 
   }
@@ -147,11 +148,11 @@ updateOutput <- function (main, eventName, rv, input, output) {
     output$forecastTabModel   <- renderText(rv$forecastTabModel)
     output$forecastTabTSPlot  <- renderPlot(plot_cast_ts(main    = main,
                                                          dataset = rv$forecastTabDataset,
-                                                         species = toupper(species_names$abbreviation[species_names$Latin == rv$forecastTabSpecies]),
+                                                         species = rv$forecastTabSpecies,
                                                          model   = rv$forecastTabModel))
     output$forecastTabSSPlot  <- renderPlot(plot_cast_point(main         = main,
                                                             dataset      = rv$forecastTabDataset,
-                                                            highlight_sp = toupper(species_names$abbreviation[species_names$Latin == rv$forecastTabSpecies]),
+                                                            highlight_sp = rv$forecastTabSpecies,
                                                             model        = rv$forecastTabModel))
 
   }
@@ -162,11 +163,11 @@ updateOutput <- function (main, eventName, rv, input, output) {
     output$forecastTabModel   <- renderText(rv$forecastTabModel)
     output$forecastTabTSPlot  <- renderPlot(plot_cast_ts(main    = main,
                                                          dataset = rv$forecastTabDataset,
-                                                         species = toupper(species_names$abbreviation[species_names$Latin == rv$forecastTabSpecies]),
+                                                         species = rv$forecastTabSpecies,
                                                          model   = rv$forecastTabModel))
     output$forecastTabSSPlot  <- renderPlot(plot_cast_point(main         = main,
                                                             dataset      = rv$forecastTabDataset,
-                                                            highlight_sp = toupper(species_names$abbreviation[species_names$Latin == rv$forecastTabSpecies]),
+                                                            highlight_sp = rv$forecastTabSpecies,
                                                             model        = rv$forecastTabModel))
 
   }
@@ -178,14 +179,13 @@ updateOutput <- function (main, eventName, rv, input, output) {
     output$evaluationTabModel   <- renderText(rv$evaluationTabModel)
     output$evaluationTabSpPlot  <- renderPlot(plot_cast_point(main        = main,
                                                              dataset      = rv$evaluationTabDataset,
-                                                             highlight_sp = toupper(species_names$abbreviation[species_names$Latin == rv$evaluationTabSpecies]),
+                                                             highlight_sp = rv$evaluationTabSpecies,
                                                              model        = rv$evaluationTabModel,
                                                              with_census  = TRUE))
     output$evaluationTabRMSEPlot  <- renderPlot(plot_casts_cov_RMSE(main     = main,
                                                                     dataset  = rv$evaluationTabDataset,
-                                                                    species  = toupper(species_names$abbreviation[species_names$Latin == rv$evaluationTabSpecies]),
-                                                                    models   = rv$evaluationTabModel,
-                                                                    ensemble = FALSE))
+                                                                    species  = rv$evaluationTabSpecies,
+                                                                    models   = rv$evaluationTabModel))
   }
   if (eventName == "evaluationTabDataset") {
 
@@ -194,14 +194,13 @@ updateOutput <- function (main, eventName, rv, input, output) {
     output$evaluationTabModel   <- renderText(rv$evaluationTabModel)
     output$evaluationTabSpPlot  <- renderPlot(plot_cast_point(main        = main,
                                                              dataset      = rv$evaluationTabDataset,
-                                                             highlight_sp = toupper(species_names$abbreviation[species_names$Latin == rv$evaluationTabSpecies]),
+                                                             highlight_sp = rv$evaluationTabSpecies,
                                                              model        = rv$evaluationTabModel,
                                                              with_census  = TRUE))
     output$evaluationTabRMSEPlot  <- renderPlot(plot_casts_cov_RMSE(main     = main,
                                                                     dataset  = rv$evaluationTabDataset,
-                                                                    species  = toupper(species_names$abbreviation[species_names$Latin == rv$evaluationTabSpecies]),
-                                                                    models   = rv$evaluationTabModel,
-                                                                    ensemble = FALSE))
+                                                                    species  = rv$evaluationTabSpecies,
+                                                                    models   = rv$evaluationTabModel))
 
   }
   if (eventName == "evaluationTabModel") {
@@ -211,14 +210,13 @@ updateOutput <- function (main, eventName, rv, input, output) {
     output$evaluationTabModel   <- renderText(rv$evaluationTabModel)
     output$evaluationTabSpPlot  <- renderPlot(plot_cast_point(main        = main,
                                                              dataset      = rv$evaluationTabDataset,
-                                                             highlight_sp = toupper(species_names$abbreviation[species_names$Latin == rv$evaluationTabSpecies]),
+                                                             highlight_sp = rv$evaluationTabSpecies,
                                                              model        = rv$evaluationTabModel,
                                                              with_census  = TRUE))
     output$evaluationTabRMSEPlot  <- renderPlot(plot_casts_cov_RMSE(main     = main,
                                                                     dataset  = rv$evaluationTabDataset,
-                                                                    species  = toupper(species_names$abbreviation[species_names$Latin == rv$evaluationTabSpecies]),
-                                                                    models   = rv$evaluationTabModel,
-                                                                    ensemble = FALSE))
+                                                                    species  = rv$evaluationTabSpecies,
+                                                                    models   = rv$evaluationTabModel))
 
   }
 
@@ -227,7 +225,7 @@ updateOutput <- function (main, eventName, rv, input, output) {
 
 }
 
-updateInput <- function (eventName, rv, input, output, session) {
+updateInput <- function (main, eventName, rv, input, output, session) {
 
   if (eventName == "forecastTabSpecies") {
 
@@ -390,51 +388,37 @@ selected_model <- function (eventName,
 
   }  
 
-  model
+  model_list()[model_list() %in% model]
 
 }
 
 available_models <- function (eventName, 
                               rv) {
 
-  possible <- model_list()
+  all_possible <- unique(rv$casts_metadata$model[rv$casts_metadata$model %in% prefab_models()])
 
-    if (grepl("forecastTab", eventName)) {
+  if (grepl("forecastTab", eventName)) {
 
-    if (rv$forecastTabSpecies == "Dipodomys merriami" & 
-        rv$forecastTabDataset == "controls") {
- 
-      possible <- possible
-
-    } else {
-
-      possible <- possible[!grepl("jags", possible)]
-
-    }
-
+    possible <- unique(rv$casts_metadata$model[rv$casts_metadata$species == rv$forecastTabSpecies &
+                                               rv$casts_metadata$dataset == rv$forecastTabDataset])
   }
 
   if (grepl("evaluationTab", eventName)) {
 
-    if (rv$evaluationTabSpecies == "Dipodomys merriami" & 
-        rv$evaluationTabDataset == "controls") {
+    possible <- unique(rv$casts_metadata$model[rv$casts_metadata$species == rv$evaluationTabSpecies &
+                                               rv$casts_metadata$dataset == rv$evaluationTabDataset])
 
-      possible <- possible
-
-    } else {
-
-      possible <- possible[!grepl("jags", possible)]
-
-    }
   }
-  possible
+
+  models <- possible[possible %in% all_possible]
+  model_list()[model_list() %in% models]
 
 }
 
 
 
 
-selected_species <- function (eventName,
+selected_species <- function (eventName, 
                               rv) {
 
   available <- available_species(eventName = eventName,
@@ -453,52 +437,36 @@ selected_species <- function (eventName,
 
   }  
 
-  species
+  species_list()[species_list() %in% species]
 
 }
 
 
-available_species <- function (eventName,
+available_species <- function (eventName, 
                                rv) {
 
-  possible <- rodent_species(set = "base", type = "Latin")
-
+  all_possible <- unique(rv$casts_metadata$species[rv$casts_metadata$species %in% rodent_species(set = "forecasting", type = "code", total = TRUE)])
 
   if (grepl("forecastTab", eventName)) {
 
-    if (rv$forecastTabDataset == "exclosures") {
-
-      possible <- possible[!grepl("Dipodomys", possible)]
-
-    }
-    if (grepl("jags", rv$forecastTabModel)) {
-
-      possible <- "Dipodomys merriami"
-
-    }
-
+    possible <- unique(rv$casts_metadata$species[rv$casts_metadata$model   == rv$forecastTabModel &
+                                                 rv$casts_metadata$dataset == rv$forecastTabDataset])
   }
 
   if (grepl("evaluationTab", eventName)) {
 
-    if (rv$evaluationTabDataset == "exclosures") {
+    possible <- unique(rv$casts_metadata$species[rv$casts_metadata$model == rv$evaluationTabModel &
+                                                 rv$casts_metadata$dataset == rv$evaluationTabDataset])
 
-      possible <- possible[!grepl("Dipodomys", possible)]
-
-    }
-    if (grepl("jags", rv$evaluationTabModel)) {
-
-      possible <- "Dipodomys merriami"
-
-    }
   }
 
-  possible
+  species <- possible[possible %in% all_possible]
+  species_list()[species_list() %in% species]
 
 }
 
 
-selected_dataset <- function (eventName,
+selected_dataset <- function (eventName, 
                               rv) {
 
   available <- available_datasets(eventName = eventName,
@@ -522,53 +490,40 @@ selected_dataset <- function (eventName,
 
 }
 
-available_datasets <- function (eventName,
+available_datasets <- function (main,
+                                eventName, 
                                 rv) {
 
-  possible <- prefab_datasets()
+  all_possible <- unique(rv$casts_metadata$dataset[rv$casts_metadata$dataset %in% prefab_datasets()])
 
   if (grepl("forecastTab", eventName)) {
 
-    if (grepl("Dipodomys", rv$forecastTabSpecies)) {
-
-      possible <- c("all", "controls")
-
-    }
-    if (grepl("jags", rv$forecastTabModel)) {
-
-      possible <- "controls"
- 
-    }
-  
+    possible <- unique(rv$casts_metadata$dataset[rv$casts_metadata$model   == rv$forecastTabModel &
+                                                 rv$casts_metadata$species == rv$forecastTabSpecies])
   }
+
   if (grepl("evaluationTab", eventName)) {
 
-    if (grepl("Dipodomys", rv$evaluationTabSpecies)) {
+    possible <- unique(rv$casts_metadata$dataset[rv$casts_metadata$model   == rv$evaluationTabModel &
+                                                 rv$casts_metadata$species == rv$evaluationTabSpecies])
 
-      possible <- c("all", "controls")
-
-    }
-    if (grepl("jags", rv$evaluationTabModel)) {
-
-      possible <- "controls"
- 
-    }
-  
   }
 
-
-  possible
+  possible[possible %in% all_possible]
 
 }
 
-initialReactiveValues <- function ( ) {
+initialReactiveValues <- function (main = ".") {
+ 
+  casts_metadata <- read_casts_metadata(main = main)
 
-  reactiveValues(forecastTabSpecies   = "Dipodomys merriami", 
+  reactiveValues(forecastTabSpecies   = "DM", 
                  forecastTabDataset   = "all", 
-                 forecastTabModel     = "nbsGARCH",
-                 evaluationTabSpecies = "Dipodomys merriami", 
+                 forecastTabModel     = "AutoArima",
+                 evaluationTabSpecies = "DM",
                  evaluationTabDataset = "all", 
-                 evaluationTabModel   = "nbsGARCH")
+                 evaluationTabModel   = "AutoArima",
+                 casts_metadata       = casts_metadata)
 
 }
 

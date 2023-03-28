@@ -104,8 +104,8 @@ forecastTabInputSelectionRowSpecies <- function ( ) {
   column(width = 4,
          selectInput(inputId  = "forecastTabSpecies",
                      label    = "Species",
-                     choices  = rodent_species(set = "base", type = "Latin"),
-                     selected = "Dipodomys merriami"))
+                     choices  = species_list(),
+                     selected = "DM"))
 
 }
 
@@ -119,13 +119,6 @@ forecastTabInputSelectionRowDataset <- function ( ) {
 
 }
 
-model_list <- function ( ) {
-
-  out <- prefab_models()
-  names(out) <- unlist(mapply(getElement, prefab_model_controls(), "metadata")["print_name", ])
-
-  out
-}
 
 forecastTabInputSelectionRowModel <- function ( ) {
 
@@ -133,7 +126,7 @@ forecastTabInputSelectionRowModel <- function ( ) {
          selectInput(inputId  = "forecastTabModel",
                      label    = "Model",
                      choices  = model_list(),
-                     selected = "nbsGARCH"))
+                     selected = "AutoArima"))
 
 }
 
@@ -155,8 +148,8 @@ evaluationTabInputSelectionRowSpecies <- function ( ) {
   column(width = 4,
          selectInput(inputId  = "evaluationTabSpecies",
                      label    = "Species",
-                     choices  = rodent_species(set = "base", type = "Latin"),
-                     selected = "Dipodomys merriami"))
+                     choices  = species_list( ), 
+                     selected = "DM"))
 
 }
 
@@ -177,8 +170,27 @@ evaluationTabInputSelectionRowModel <- function ( ) {
          selectInput(inputId  = "evaluationTabModel",
                      label    = "Model",
                      choices  = model_list(),
-                     selected = "nbsGARCH"))
+                     selected = "AutoArima"))
 
+}
+
+
+
+
+model_list <- function ( ) {
+
+  out <- prefab_models()
+  names(out) <- unlist(mapply(getElement, prefab_model_controls(), "metadata")["print_name", ])
+
+  out
+}
+
+species_list <- function ( ) {
+
+  out <- rodent_species(set = "forecasting", type = "code", total = TRUE)
+  names(out) <- rodent_species(set = "forecasting", type = "Latin", total = TRUE)
+
+  out
 }
 
 
