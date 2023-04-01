@@ -1,5 +1,5 @@
 
-portalForecastServer <- function(main = "~/portalcasting", input, output, session) {
+portalForecastServer <- function(main = ".", input, output, session) {
 
   rv     <- initialReactiveValues(main = main)
   output <- initialOutput(rv     = rv, 
