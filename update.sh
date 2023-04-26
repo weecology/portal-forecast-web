@@ -2,4 +2,4 @@
 git pull origin main
 
 # Update data files
-R --vanilla -e 'portalcasting::fill_dir()'
+R --vanilla -e 'portalcasting::update_dir()'
