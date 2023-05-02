@@ -2,7 +2,11 @@
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 name: App build
 
@@ -15,11 +19,9 @@ jobs:
       R_DEFAULT_INTERNET_TIMEOUT: 300
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CRAN_REPO: https://packagemanager.rstudio.com/all/__linux__/focal/latest
+
     steps:
       - uses: actions/checkout@v2
-      - name: Install package dependencies
-        run: |
-          install.packages(c("english", "markdown", "shiny"))
-        shell: Rscript {0}
+
       - name: Check
         run: Rscript tests/test_app_build.R
